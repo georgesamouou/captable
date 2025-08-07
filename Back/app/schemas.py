@@ -70,8 +70,8 @@ class ShareIssuanceBase(BaseSchema):
 
     @validator('price_per_share')
     def validate_price(cls, v):
-        if v < 0:
-            raise ValueError('Price per share cannot be negative')
+        if v <= 0:
+            raise ValueError('Price per share must be positive')
         return v
 
 

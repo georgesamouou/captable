@@ -72,13 +72,13 @@ class ShareIssuanceService:
         ).first()
         if not shareholder:
             raise ValueError("Shareholder not found")
-        
+        # Validate number of shares is positive
+        if issuance_data.number_of_shares <= 0:
+            raise ValueError("Number of shares must be positive")
         # Calculate total value
         total_value = issuance_data.number_of_shares * issuance_data.price_per_share
-        
         # Generate certificate number
         certificate_number = f"CERT-{datetime.now().strftime('%Y%m%d')}-{uuid.uuid4().hex[:8].upper()}"
-        
         # Create issuance
         issuance = ShareIssuance(
             shareholder_id=issuance_data.shareholder_id,
@@ -91,6 +91,8 @@ class ShareIssuanceService:
         db.add(issuance)
         db.commit()
         db.refresh(issuance)
+        # Simulate email notification (log to console)
+        print(f"[EMAIL] Sent share issuance notification to {shareholder.user.email}: {issuance.number_of_shares} shares issued on {issuance.issuance_date}.")
         return issuance
 
     @staticmethod

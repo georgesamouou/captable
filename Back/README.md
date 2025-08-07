@@ -23,7 +23,7 @@ This is a robust FastAPI backend for managing a company's capitalization table (
 ## Prerequisites
 
 - Python 3.8+
-- PostgreSQL 12+
+- PostgreSQL 12+ (or SQLite for local development)
 - pip (Python package manager)
 
 ## Setup Instructions
@@ -46,13 +46,19 @@ pip install -r requirements.txt
 
 ### 2. Database Setup
 
+You can use **PostgreSQL** (recommended for production) or **SQLite** (for quick local development/testing). To use SQLite, set the following in your `.env` file:
+
+```
+database_url=sqlite:///./cap_table.db
+```
+
 ```bash
 # Create PostgreSQL database
 createdb cap_table_db
 
 # Set environment variables (create .env file)
 cp env.example .env
-# Edit .env with your database credentials
+# Edit .env with your database credentials (or use SQLite as described above)
 ```
 
 ### 3. Database Migration
